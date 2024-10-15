@@ -1,0 +1,3 @@
+flour, 10
+eggs, 50
+milk, 20

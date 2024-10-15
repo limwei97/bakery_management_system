@@ -1,0 +1,4 @@
+Id  Name  Total Price  Quantity  OrderDate  ReceivedDate  Status  Review
+1  Croissant  20  5  15-10-2024    0 this is new product
+2  Egg Tart  10  10  13-10-2024  15-10-2024  1  This is a good item
+3  Cake  80  3  15-09-2024  17-09-2024  1  Not bad

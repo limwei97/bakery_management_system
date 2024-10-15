@@ -1,0 +1,4 @@
+Id, Name, Price, Quantity
+1, Croissant, 4.50, 5
+2, Egg Tart, 3.00, 10
+3, Cake, 4.30, 3
