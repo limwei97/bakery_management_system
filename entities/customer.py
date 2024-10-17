@@ -1,6 +1,5 @@
 import os
 
-
 def Customer():
     #provide full path to the folder name datastore
     DATA_FILEPATH =  os.path.join(os.getcwd(),"datastore")
@@ -11,7 +10,7 @@ def Customer():
     PRODUCT_REVIEW = 5
 
     while True:
-        print("--- Customer System ---")
+        print("\n--- Customer System ---")
         print("1.Customer Account Management\n2.Product Browsing\n3.Cart Management\n4.Order Tracking\n5.Product Review")
     
         userAction = input("\nPlease select action: ")
@@ -34,7 +33,8 @@ def Customer():
             OrderTracking(DATA_FILEPATH)
         elif userAction == PRODUCT_REVIEW:
             ProductReview(DATA_FILEPATH)
-        input()
+        print()
+        input("Press enter to continue")
 
 def CustomerAccountManagement(data_filepath):
     """
@@ -42,7 +42,6 @@ def CustomerAccountManagement(data_filepath):
     """
     print("This is customer account management")
 
-    LoginAccount(data_filepath)
     print("\n1. Create Profile")
     print("2. Login")
     print("3. Update Profile")
@@ -89,7 +88,6 @@ def OrderTracking(data_filepath):
         for line in data:
             print(line[:-1])
             temp.append(line[:-1].split(","))
-        print(temp)
     return temp
 
 def ProductReview(data_filepath):
@@ -99,6 +97,8 @@ def ProductReview(data_filepath):
     new = []
     listProduct = OrderTracking(data_filepath)
     userAction = input("\nPlease select product to review: ")
+    if userAction =='':
+        print("Please retry and re-enter correct item ID")
     for product in listProduct:
         if userAction == product[0]:
             review = input("Please enter review for products: ")
@@ -133,7 +133,6 @@ def LoginAccount(data_filepath):
             if userName == word[2] and password == word[4][:-1]:
                 print(word)
                 user_dict[word[2]] = word
-                UpdatePersonalInformation(data_filepath, user_dict)
                 return
     
     print("User does not exist")
@@ -156,21 +155,22 @@ def UpdatePersonalInformation(data_filepath, user_dict):
     dateOfBirth = input("Please enter date of birth: ")
     password = input("Please enter password: ")
 
-    print(user_dict)
     if userName in user_dict:
         user_dict[userName] = [firstName, lastName, userName, dateOfBirth, password]
-    for value in user_dict.values():
-        temp.append(value)
 
+    for value in user_dict.values():
+        temp.append(value[0] + ":" + value[1] + ":" + value[2] + ":" + value[3] + ":" + value[4] + "\n")
     with open(os.path.join(data_filepath,"userAccount.txt"), "w") as file:
         file.writelines(temp)
+    print("Account updated")
 
 def ReadCart(data_filepath):
-    temp = []
+    temp = {}
     with open(os.path.join(data_filepath,"cart.txt"), "r") as file:
         data = file.readlines()
         for line in data:
             word = line.split(":")
+            print(word)
             temp[word[0]] = word
     return temp
 
@@ -179,7 +179,7 @@ def AddItemToCart(data_filepath):
     quantity = input("Please enter quantity to purchase: ")
     price = input("Please enter price of item: ")
     with open(os.path.join(data_filepath,"cart.txt"), "a") as file:
-        file.writelines(itemName+":"+quantity+":"+price)
+        file.writelines(itemName+":"+quantity+":"+price+"\n")
 
 def RemoveItemFromCart(data_filepath):
     new_temp=[]

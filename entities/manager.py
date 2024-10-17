@@ -1,5 +1,7 @@
+import os
+
 # 1. Systems Administration: Manage user accounts and credentials
-def manage_users(self, action, user=None):
+def manage_users(action, user=None):
     if action == "add":
         print(f"User {user} added successfully!")
     elif action == "update":
@@ -50,22 +52,27 @@ def add_to_inventory(item_name, quantity, price):
     inventory[item_name] = {"quantity": quantity, "price": price}
     print(f"{item_name} added to inventory with quantity {quantity} at ${price:.2f} each.")
 
-def update_inventory(item_name, quantity=None, price=None):
-    if item_name in inventory:
-        if quantity is not None:
-            inventory[item_name]["quantity"] = quantity
-        if price is not None:
-            inventory[item_name]["price"] = price
+def update_inventory(data_filepath):
+    inventory = view_inventory(data_filepath)
+    itemToUpdate = input("Would you like to update an inventory? ")
+    itemToUpdate = input("Please enter your ")
+    itemToUpdate = input("Would you like to update an inventory? ")
+    if itemToUpdate in inventory:
+        inventory[item_name]["quantity"] = quantity
+        inventory[item_name]["price"] = price
         print(f"{item_name} updated: Quantity - {quantity}, Price - ${price:.2f}")
     else:
-        print(f"{item_name} not found in inventory.")
+        print(f"{itemToUpdate} not found in inventory.")
 
-def view_inventory():
-    if not inventory:
-        print("No items in inventory.")
-    else:
-        for item, details in inventory.items():
-            print(f"Item: {item}, Quantity: {details['quantity']}, Price: ${details['price']:.2f}")
+def view_inventory(data_filepath):
+    inventory = {}
+    with open(os.path.join(data_filepath,"inventory.txt"), "r") as file:
+        data = file.readlines()
+        for line in data:
+            items = line.split(",")
+            print(items)
+            inventory[items[0]] = int(items[1])
+    return inventory
 
 def remove_from_inventory(item_name):
     if item_name in inventory:
@@ -88,6 +95,7 @@ def view_feedback():
             print(f"- {feedback}")
 
 def Manager():
+    DATA_FILEPATH = os.path.join(os.getcwd(), "datastore")
     while True:
         print("\n1. Manage Users")
         print("2. Manage Orders")
@@ -110,7 +118,7 @@ def Manager():
             calculate_profit()
 
         elif choice == "4":
-            view_inventory()
+            view_inventory(DATA_FILEPATH)
 
         elif choice == "5":
             view_feedback()
