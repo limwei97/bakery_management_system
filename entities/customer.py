@@ -36,7 +36,7 @@ def CustomerAccountManagement(data_filepath):
     This function is to create, manage, login and update personal information
     """
     print("This is customer account management")
-    #CreateAccount(data_filepath)
+
     LoginAccount(data_filepath)
     print("\n1. Create Profile")
     print("2. Login")
@@ -58,11 +58,21 @@ def ProductBrowsing(data_filepath):
         for line in data:
             print(line[:-1])
 
-def CartManagement():
+def CartManagement(data_filepath):
     """
     This function is for customers to add, remove, or modify items in their shopping cart
     """
-    pass
+    print("This is cart management")
+    print("\n1. Add Item")
+    print("2. Remove Item")
+    print("3. Modify item")
+    choice = input("Choose an option: ")
+    if choice == "1":
+        AddItemToCart(data_filepath)
+    elif choice == "2":
+        RemoveItemFromCart(data_filepath)
+    elif choice == "3":
+        ModifyItemInCart(data_filepath)
 
 def OrderTracking(data_filepath):
     """
@@ -134,7 +144,7 @@ def ObtainAllUsers(data_filepath):
     return user_dict
 
 def UpdatePersonalInformation(data_filepath, user_dict):
-
+    temp = []
     userName = input("Please enter username to pick profile to update: ")
     firstName = input("Please enter first name: ")
     lastName = input("Please enter last name: ")
@@ -142,13 +152,55 @@ def UpdatePersonalInformation(data_filepath, user_dict):
     password = input("Please enter password: ")
 
     print(user_dict)
-    if username in user_dict:
+    if userName in user_dict:
         user_dict[userName] = [firstName, lastName, userName, dateOfBirth, password]
     for value in user_dict.values():
         temp.append(value)
 
     with open(os.path.join(data_filepath,"userAccount.txt"), "w") as file:
         file.writelines(temp)
+
+def ReadCart(data_filepath):
+    temp = []
+    with open(os.path.join(data_filepath,"cart.txt"), "r") as file:
+        data = file.readlines()
+        for line in data:
+            word = line.split(":")
+            temp[word[0]] = word
+    return temp
+
+def AddItemToCart(data_filepath):
+    itemName = input("Please enter item name: ")
+    quantity = input("Please enter quantity to purchase: ")
+    price = input("Please enter price of item: ")
+    with open(os.path.join(data_filepath,"cart.txt"), "a") as file:
+        file.writelines(itemName+":"+quantity+":"+price)
+
+def RemoveItemFromCart(data_filepath):
+    new_temp=[]
+    temp = ReadCart(data_filepath)
+    itemRemove = input("Please enter itemName to remove: ")
+    for key, value in temp.items():
+        if key != itemRemove:
+            new_temp.append(value[0]+":"+value[1]+":"+value[2]+"\n")
+
+    with open(os.path.join(data_filepath,"cart.txt"), "w") as file:
+        file.writelines(new_temp)
+
+def ModifyItemInCart(data_filepath):
+    new_temp=[]
+    temp = ReadCart(data_filepath)
+    itemModify = input("Please enter itemName to modify: ")
+    quantity = input("Please enter quantity to purchase: ")
+    price = input("Please enter price of item: ")
+    for key, value in temp.items():
+        if key != itemModify:
+            new_temp.append(value[0]+":"+value[1]+":"+value[2]+"\n")
+        else:
+            new_temp.append(itemModify+":"+quantity+":"+price+"\n")
+
+    with open(os.path.join(data_filepath,"cart.txt"), "w") as file:
+        file.writelines(new_temp)
 
 if __name__ == "__main__":
     Customer()
