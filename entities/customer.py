@@ -1,9 +1,14 @@
 import os
-import constant
+
 
 def Customer():
     #provide full path to the folder name datastore
     DATA_FILEPATH =  os.path.join(os.getcwd(),"datastore")
+    CUSTOMER_ACCOUNT_MANAGEMENT = 1
+    PRODUCT_BROWSING = 2
+    CART_MANAGEMENT = 3
+    ORDER_TRACKING = 4
+    PRODUCT_REVIEW = 5
 
     while True:
         print("--- Customer System ---")
@@ -19,15 +24,15 @@ def Customer():
         print()
         if userAction < 1 or userAction > 5:
             continue
-        elif userAction == constant.CUSTOMER_ACCOUNT_MANAGEMENT:
+        elif userAction == CUSTOMER_ACCOUNT_MANAGEMENT:
             CustomerAccountManagement(DATA_FILEPATH)
-        elif userAction == constant.PRODUCT_BROWSING:
+        elif userAction == PRODUCT_BROWSING:
             ProductBrowsing(DATA_FILEPATH)
-        elif userAction == constant.CART_MANAGEMENT:
+        elif userAction == CART_MANAGEMENT:
             CartManagement(DATA_FILEPATH)
-        elif userAction == constant.ORDER_TRACKING:
+        elif userAction == ORDER_TRACKING:
             OrderTracking(DATA_FILEPATH)
-        elif userAction == constant.PRODUCT_REVIEW:
+        elif userAction == PRODUCT_REVIEW:
             ProductReview(DATA_FILEPATH)
         input()
 
